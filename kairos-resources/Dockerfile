@@ -1,16 +1,15 @@
 # https://www.spectrocloud.com/blog/kiosk-mode-for-edge-computing-with-kairos-and-kubernetes
-FROM busybox AS downloader
+#FROM busybox AS downloader
 
-# TODO: this is not an arm build and won't run on rpi
-ADD chrome-linux.zip .
-RUN unzip chrome-linux.zip
-RUN mv chrome-linux /
+#ADD chrome-linux.zip .
+#RUN unzip chrome-linux.zip
+#RUN mv chrome-linux /
 
 FROM quay.io/kairos/opensuse:tumbleweed-standard-arm64-rpi4-v3.1.1-k3sv1.29.4-k3s1
-RUN zypper ref && zypper in -y cage wpa_supplicant firefox
+RUN zypper ref && zypper in -y cage wpa_supplicant firefox chromium
 
-COPY --from=downloader /chrome-linux /etc/chrome-linux
-RUN ln -s /etc/chrome-linux/chrome /usr/bin/chrome
+#COPY --from=downloader /chrome-linux /etc/chrome-linux
+#RUN ln -s /etc/chrome-linux/chrome /usr/bin/chrome
 
 COPY <<'EOF' /etc/wpa_supplicant/wpa_supplicant.conf
 # This file should be generated using wpa_passphrase
@@ -103,7 +102,8 @@ COPY <<'EOF' /usr/bin/start_cage.sh
 
 # Get the IPv4 address of wlan0
 export KAIROS_IP=$(ip -4 addr show wlan0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
-/usr/bin/cage chrome https://${KAIROS_IP}:30000 -- --kiosk --enable-features=UseOzonePlatform --ozone-platform=wayland
+#/usr/bin/cage chrome https://${KAIROS_IP}:30000 -- --kiosk --enable-features=UseOzonePlatform --ozone-platform=wayland
+/usr/bin/cage firefox https://${KAIROS_IP}:30000 -- --kiosk
 EOF
 RUN chmod 744 /usr/bin/start_cage.sh
 

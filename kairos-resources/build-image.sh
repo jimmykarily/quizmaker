@@ -24,10 +24,10 @@ docker buildx build --load --platform linux/arm64 -t "${IMAGE}" . && \
     -v $PWD/build:/build \
     --entrypoint "/bin/sh" \
     -e MODEL=rpi4 \
-    -e SIZE="24000" \
-    -e DEFAULT_ACTIVE_SIZE="4000" \
-    -e STATE_SIZE="12000" \
-    -e RECOVERY_SIZE="8000" \
+    -e SIZE="30000" \
+    -e DEFAULT_ACTIVE_SIZE="5000" \
+    -e STATE_SIZE="15000" \
+    -e RECOVERY_SIZE="10000" \
     quay.io/kairos/osbuilder-tools:latest \
     /build-arm-image.sh --model rpi4 --directory "/image" /build/image.img
 
