@@ -1,0 +1,21 @@
+#cloud-config
+
+users:
+    - name: kairos
+      passwd: kairos
+
+k3s:
+    enabled: true
+
+stages:
+    boot:
+      - name: "Enabling wireless"
+        commands:
+          - |
+            mkdir -p /home/kairos/quizmaker-data
+            systemctl enable wpa_supplicant@wlan0
+            systemctl disable wpa_supplicant
+            systemctl stop wpa_supplicant || :
+            systemctl start wpa_supplicant@wlan0 || :
+            dhclient wlan0
+            systemctl start cage@tty1.service
