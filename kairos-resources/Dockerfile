@@ -133,7 +133,7 @@ After=getty@%i.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/start_cage.sh
+ExecStart=/bin/bash /usr/bin/start_cage.sh
 Restart=always
 User=kairos
 # Log this user with utmp, letting it show up with commands 'w' and
