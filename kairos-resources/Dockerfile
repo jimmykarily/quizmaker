@@ -105,7 +105,7 @@ export KAIROS_IP=$(ip -4 addr show wlan0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
 #/usr/bin/cage chrome https://${KAIROS_IP}:30000 -- --kiosk --enable-features=UseOzonePlatform --ozone-platform=wayland
 /usr/bin/cage firefox https://${KAIROS_IP}:30000 -- --kiosk
 EOF
-RUN chmod 744 /usr/bin/start_cage.sh
+RUN chmod 755 /usr/bin/start_cage.sh
 
 
 COPY <<'EOF' /etc/systemd/system/cage@.service
