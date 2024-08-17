@@ -6,7 +6,8 @@
 #RUN mv chrome-linux /
 
 FROM quay.io/kairos/opensuse:tumbleweed-standard-arm64-rpi4-v3.1.1-k3sv1.29.4-k3s1
-RUN zypper ref && zypper in -y cage wpa_supplicant firefox chromium
+RUN zypper ref && zypper --non-interactive in -y cage wpa_supplicant firefox chromium xorg-x11-fonts Mesa-dri-vc4 chrony-pool-openSUSE chrony
+RUN zypper --non-interactive in -y fetchmsttfonts || : # This could fail
 
 #COPY --from=downloader /chrome-linux /etc/chrome-linux
 #RUN ln -s /etc/chrome-linux/chrome /usr/bin/chrome
@@ -159,5 +160,13 @@ WantedBy=graphical.target
 #Alias=display-manager.service
 DefaultInstance=tty7
 EOF
+
+COPY <<'EOF' /etc/systemd/resolved.conf.d/dns.conf
+[Resolve]
+DNS=8.8.8.8
+FallbackDNS=1.1.1.1
+EOF
+
+
 RUN chmod 644 /etc/systemd/system/cage@.service
 RUN chown root /etc/systemd/system/cage@.service

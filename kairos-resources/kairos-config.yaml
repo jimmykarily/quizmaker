@@ -18,4 +18,5 @@ stages:
             systemctl stop wpa_supplicant || :
             systemctl start wpa_supplicant@wlan0 || :
             dhclient wlan0
+            systemctl start chronyd.service
             systemctl start cage@tty1.service
