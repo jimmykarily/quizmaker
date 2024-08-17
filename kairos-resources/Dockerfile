@@ -14,6 +14,7 @@ RUN zypper --non-interactive in -y fetchmsttfonts || : # This could fail
 
 COPY <<'EOF' /etc/wpa_supplicant/wpa_supplicant.conf
 # This file should be generated using wpa_passphrase
+# passphrase here is 12345678
 ctrl_interface=/var/run/wpa_supplicant
 ctrl_interface_group=admin
 network={
