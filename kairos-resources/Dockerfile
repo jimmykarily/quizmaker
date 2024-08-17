@@ -169,6 +169,8 @@ DNS=8.8.8.8
 FallbackDNS=1.1.1.1
 EOF
 
+RUN echo "pool pool.ntp.org iburst" >> /etc/chrony.conf
+
 
 RUN chmod 644 /etc/systemd/system/cage@.service
 RUN chown root /etc/systemd/system/cage@.service
