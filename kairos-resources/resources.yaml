@@ -5,7 +5,11 @@ metadata:
   name: cookie-secret
 type: Opaque
 data:
-  secret: c2VjcmV0cGFzc3dvcmQ=  # This is the base64 encoded value of "secretpassword"
+  # This is the base64 encoded value of "secretpassword"
+  # NOTE: Change this to user your own
+  # TODO: Let the server generate one if none is given. It should accept a flag
+  # for a directory where to store it (mounted pvc for example).
+  secret: c2VjcmV0cGFzc3dvcmQ=
 
 ---
 apiVersion: apps/v1
