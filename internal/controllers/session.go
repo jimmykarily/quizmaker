@@ -8,6 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jimmykarily/quizmaker/internal/models"
+	"gorm.io/gorm/clause"
 )
 
 type (
@@ -16,13 +17,23 @@ type (
 
 func (c *SessionController) List(gctx *gin.Context) {
 	sessions := []models.Session{}
-	err := Settings.DB.Find(&sessions).Error
+	err := Settings.DB.Preload(clause.Associations).Find(&sessions).Error
 	if handleError(gctx.Writer, err, http.StatusInternalServerError) {
 		return
 	}
 
 	var complete, inProgress []models.Session
 	for _, s := range sessions {
+		oldScore := s.Score
+		oldComplete := s.Complete
+		s.UpdateCacheColumns()
+		if oldScore != s.Score || oldComplete != s.Complete { // if needs update
+			err = Settings.DB.Save(s).Error
+			if handleError(gctx.Writer, err, http.StatusInternalServerError) {
+				return
+			}
+		}
+
 		if s.Complete {
 			complete = append(complete, s)
 		} else {
