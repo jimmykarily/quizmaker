@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quizmaker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quizmaker
+  template:
+    metadata:
+      labels:
+        app: quizmaker
+    spec:
+      containers:
+        - name: quizmaker
+          image: quay.io/jimmykarily/quizmaker:v0.0.4
+          ports:
+            - containerPort: 8080
+          command: ["quizmaker", "-question-pool", "/app/questions.yaml"]
+          volumeMounts:
+            - name: questions
+              mountPath: /app/questions.yaml
+              subPath: questions.yaml
+          env:
+            - name: QUIZMAKER_COOKIE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: quizmaker-cookie-secret
+                  key: token
+      volumes:
+        - name: questions
+          configMap:
+            name: quizmaker-questions
