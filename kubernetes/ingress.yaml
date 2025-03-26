@@ -4,8 +4,8 @@ metadata:
   name: quizmaker-ingress
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
-    kubernetes.io/ingress.class: traefik
 spec:
+  ingressClassName: traefik
   rules:
     - host: example.com   # Default domain
       http:
