@@ -75,11 +75,16 @@ func GetFullURL(request *http.Request, routeName string, params map[string]strin
 	var err error
 	u := url.URL{Host: request.Host}
 
-	if request.TLS != nil {
-		u.Scheme = "https"
-	} else {
-		u.Scheme = "http"
+	scheme := request.Header.Get("X-Forwarded-Proto")
+	if scheme == "" {
+		// Fallback: try TLS
+		if request.TLS != nil {
+			scheme = "https"
+		} else {
+			scheme = "http"
+		}
 	}
+	u.Scheme = scheme
 
 	if u.Path, err = GetRoutePath(routeName, params); err != nil {
 		return "", err
