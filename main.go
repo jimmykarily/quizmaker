@@ -26,6 +26,7 @@ func init() {
 
 func main() {
 	router := gin.Default()
+	router.SetTrustedProxies(nil) // Don't trust any proxy headers
 
 	var err error
 	var settings settingspkg.Settings

@@ -23,6 +23,8 @@ spec:
               mountPath: /app/questions.yaml
               subPath: questions.yaml
           env:
+            - name: GIN_MODE
+              value: release
             - name: QUIZMAKER_COOKIE_SECRET
               valueFrom:
                 secretKeyRef:
