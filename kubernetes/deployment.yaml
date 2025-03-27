@@ -17,11 +17,13 @@ spec:
           image: quay.io/jimmykarily/quizmaker:v0.0.7
           ports:
             - containerPort: 8080
-          command: ["quizmaker", "-question-pool", "/app/questions.yaml"]
+          command: ["quizmaker", "-question-pool", "/app/questions.yaml", "-database-storage-dir", "/data/quizmaker"]
           volumeMounts:
             - name: questions
               mountPath: /app/questions.yaml
               subPath: questions.yaml
+            - name: host-data
+              mountPath: /data/quizmaker
           env:
             - name: GIN_MODE
               value: release
@@ -39,3 +41,7 @@ spec:
         - name: questions
           configMap:
             name: quizmaker-questions
+        - name: host-data
+          hostPath:
+            path: /home/kairos/
+            type: Directory

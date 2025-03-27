@@ -14,7 +14,7 @@ spec:
     - selector: {}
       http01:
         ingress:
-          class: traefik
+          ingressClassName: traefik
 
 ---
 apiVersion: cert-manager.io/v1
@@ -32,4 +32,4 @@ spec:
     - selector: {}
       http01:
         ingress:
-          class: traefik
+          ingressClassName: traefik

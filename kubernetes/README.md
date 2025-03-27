@@ -35,6 +35,7 @@ patchesStrategicMerge:
 
 secretGenerator:
   - name: quizmaker-secret
+    behavior: replace
     literals:
       - token="<your_secret_here>"
       - verificationEndpoint="<a_random_url_path_here>"
