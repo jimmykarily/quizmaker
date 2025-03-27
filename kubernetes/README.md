@@ -34,9 +34,10 @@ patchesStrategicMerge:
   - cluster-issuer-patch.yaml
 
 secretGenerator:
-  - name: cookie-secret
+  - name: quizmaker-secret
     literals:
       - token="<your_secret_here>"
+      - verificationEndpoint="<a_random_url_path_here>"
 
 configMapGenerator:
   - name: quizmaker-questions

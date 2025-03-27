@@ -4,10 +4,13 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 )
+
+const DefaultVerificationEndpoint = "verification"
 
 // Route describes a route for httprouter
 type Route struct {
@@ -21,6 +24,11 @@ type Route struct {
 type Routes []Route
 
 func GetRoutes() Routes {
+	verificationEndpoint := os.Getenv("VERIFICATION_ENDPOINT")
+	if verificationEndpoint == "" {
+		verificationEndpoint = DefaultVerificationEndpoint
+	}
+
 	routes := Routes{
 		Route{
 			Name:    "SessionList",
@@ -56,6 +64,20 @@ func GetRoutes() Routes {
 			Path:    "/questions/:id",
 			Format:  "html",
 			Handler: (&QuestionController{}).Answer,
+		},
+		Route{
+			Name:    "VerificationForm",
+			Method:  "GET",
+			Path:    "/" + verificationEndpoint,
+			Format:  "html",
+			Handler: (&VerificationController{}).Form,
+		},
+		Route{
+			Name:    "VerificationSubmit",
+			Method:  "POST",
+			Path:    "/" + verificationEndpoint,
+			Format:  "html",
+			Handler: (&VerificationController{}).Submit,
 		},
 	}
 

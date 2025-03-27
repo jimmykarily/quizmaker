@@ -74,7 +74,7 @@ func getSettings() (settingspkg.Settings, error) {
 		}
 	}
 
-	dbPath := filepath.Join(databaseStorageDir, "database.sql")
+	dbPath := filepath.Join(databaseStorageDir, "database.sqlite")
 	result.DB, err = gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
 	if err != nil {
 		return result, fmt.Errorf("opening database: %w", err)

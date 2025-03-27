@@ -21,7 +21,7 @@ func TestConfig(t *testing.T) {
 
 // reset the db before each test
 var _ = BeforeEach(func() {
-	testDbPath, err := filepath.Abs(filepath.Join("..", "..", "tests", "database.sql"))
+	testDbPath, err := filepath.Abs(filepath.Join("..", "..", "tests", "database.sqlite"))
 	Expect(err).ToNot(HaveOccurred())
 	err = os.RemoveAll(testDbPath)
 	Expect(err).ToNot(HaveOccurred())

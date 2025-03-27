@@ -5,7 +5,7 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
-  - cookie-secret.yaml
+  - secret.yaml
   - cluster-issuers.yaml
   - cert-manager.yaml
 
