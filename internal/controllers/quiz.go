@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/base64"
 	"errors"
 	"fmt"
 	"math"
@@ -11,6 +12,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jimmykarily/quizmaker/internal/models"
+	"github.com/skip2/go-qrcode"
 	"gorm.io/gorm/clause"
 )
 
@@ -63,14 +65,21 @@ func (c *QuizController) Show(gctx *gin.Context) {
 
 	score := int(math.Round(models.QuestionList(currentSession.Questions).Score()))
 
+	png, err := qrcode.Encode(currentSession.Email, qrcode.Medium, 512)
+	if handleError(gctx.Writer, err, http.StatusInternalServerError) {
+		return
+	}
+
 	// Quiz is finished, show the results page
 	if currentQuestion.ID == 0 {
 		viewData := struct {
 			Session         models.Session
 			ScorePercentage string
+			EmailQRCode     string
 		}{
 			Session:         currentSession,
 			ScorePercentage: strconv.Itoa(score),
+			EmailQRCode:     base64.StdEncoding.EncodeToString(png),
 		}
 		Render([]string{"main_layout", path.Join("quizzes", "result")}, gctx.Writer, viewData)
 		return

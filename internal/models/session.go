@@ -16,6 +16,7 @@ type Session struct {
 	Nickname  string
 	Score     int
 	Complete  bool
+	Verified  bool
 	Questions []Question `gorm:"foreignKey:SessionEmail;references:Email"`
 }
 

@@ -31,7 +31,7 @@ var currentDir string
 
 var _ = BeforeEach(func() {
 	// reset the db before each test
-	testDbPath, err := filepath.Abs(filepath.Join("..", "..", "tests", "database.sql"))
+	testDbPath, err := filepath.Abs(filepath.Join("..", "..", "tests", "database.sqlite"))
 	Expect(err).ToNot(HaveOccurred())
 	err = os.RemoveAll(testDbPath)
 	Expect(err).ToNot(HaveOccurred())

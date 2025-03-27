@@ -1,2 +1,2 @@
-tests/database.sql
+tests/database.sqlite
 build
