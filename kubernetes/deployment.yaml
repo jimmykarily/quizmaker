@@ -28,8 +28,13 @@ spec:
             - name: QUIZMAKER_COOKIE_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: quizmaker-cookie-secret
+                  name: quizmaker-secret
                   key: token
+            - name: VERIFICATION_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: quizmaker-secret
+                  key: verificationEndpoint
       volumes:
         - name: questions
           configMap:
