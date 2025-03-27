@@ -10,6 +10,7 @@ import (
 type Prize struct {
 	Title       string `yaml:"title,omitempty"`
 	Description string `yaml:"description,omitempty"`
+	ImageURL    string `yaml:"imageURL,omitempty"`
 }
 
 type PrizeList []Prize

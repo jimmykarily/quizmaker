@@ -40,9 +40,19 @@ QuizMaker - Leaderboard
               <div class="mt-6 border-t border-gray-100">
                 <dl class="divide-y divide-gray-100">
                   [[ range $prize := .Prizes ]]
-                  <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="text-sm/6 font-medium text-gray-900">[[ $prize.Title ]]</dt>
-                    <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">[[ $prize.Description ]]</dd>
+                  <div class="px-4 py-6 sm:px-0">
+                    <!-- Show image if available -->
+                    [[ if ne $prize.ImageURL "" ]]
+                    <div class="mb-4">
+                      <img src="[[ $prize.ImageURL ]]" alt="[[ $prize.Title ]]" class="w-full max-w-xs mx-auto rounded-lg object-cover" />
+                    </div>
+                    [[ end ]]
+
+                    <!-- Prize Text -->
+                    <div class="text-center sm:text-left">
+                      <dt class="text-base font-semibold text-gray-900">[[ $prize.Title ]]</dt>
+                      <dd class="mt-2 text-sm text-gray-700">[[ $prize.Description ]]</dd>
+                    </div>
                   </div>
                   [[ end ]]
                 </dl>
