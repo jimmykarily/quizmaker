@@ -76,10 +76,22 @@ QuizMaker - Leaderboard
 
               <!-- Completed Quizzes -->
               <section>
-                <h2 class="text-xl font-semibold mb-4 ml-2">Completed Quizzes</h2>
+                <div class="flex items-center justify-between mb-4 px-2">
+                  <h2 class="text-xl font-semibold">Completed Quizzes</h2>
+                  <label for="toggleUnverified" class="inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="toggleUnverified" class="sr-only peer">
+                    <div class="relative w-8 h-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full
+                                peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[1px] after:start-[1px]
+                                after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all
+                                peer-checked:bg-green-500 peer-checked:after:border-white">
+                    </div>
+                    <span class="ml-2 text-xs font-medium text-gray-800">Show non-verified</span>
+                  </label>
+                </div>
                 <ul class="space-y-2">
                   [[range .Completed]]
-                  <li class="bg-green-300 p-4 rounded shadow-md flex justify-between rounded-lg">
+
+                  <li class="bg-green-300 p-4 rounded shadow-md flex justify-between rounded-lg [[if not .Verified]]unverified-entry[[end]]">
                     <div>
                       <p class="font-bold">Nickname: [[.Nickname]]</p>
                       <p>Email: [[.EmailObfuscated]]</p>
@@ -129,6 +141,30 @@ QuizMaker - Leaderboard
 
 [[define "page-javascript"]]
 <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const checkbox = document.getElementById('toggleUnverified');
+
+    // Optional: Save and restore state
+    const saved = localStorage.getItem('showUnverified');
+    if (saved !== null) {
+      checkbox.checked = saved === 'true';
+    }
+
+    const updateVisibility = () => {
+      const show = checkbox.checked;
+      localStorage.setItem('showUnverified', show);
+      const unverifiedEntries = document.querySelectorAll('.unverified-entry');
+      unverifiedEntries.forEach(entry => {
+        entry.style.display = show ? 'flex' : 'none';
+      });
+    };
+
+    checkbox.addEventListener('change', updateVisibility);
+
+    // Initial toggle based on state
+    updateVisibility();
+  });
+
   // Function to reload the page
   function reloadPage() {
     window.location.reload();
